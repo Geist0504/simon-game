@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|VT323|Oswald');
+
+/* http://meyerweb.com/eric/tools/css/reset/ 2. v2.0 | 20110126
+  License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* needed for container min-height */
+}
+
+body{
+  background: url("https://juegosrev.com/wp-content/uploads/2017/06/Wood-Wallpaper-Backgrounds-Gallery-79-Plus-PIC-WPW5013263.jpg");
+}
+
+.game{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  height: auto !important; /* real browsers */
+  min-height: 100%; /* real browsers */
+}
+
+#outter-circle{
+  position: absolute;
+  min-width: 480px;
+  min-height: 480px;
+  background-color: #333;
+  border-radius: 50%;
+}
+
+.bar{
+  background-color: #333;
+  z-index: 2;
+  position: absolute;
+}
+
+#horizontal-bar{ 
+  min-width: 480px;
+  min-height: 15px;
+}
+
+#vertical-bar{ 
+  min-width: 15px;
+  min-height: 480px;
+}
+
+#second-circle{
+  min-width: 264px;
+  min-height: 264px;
+  border-radius: 50%;
+}
+
+.inner-circle{
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 5;
+  align-items: center;
+}
+
+#logo{
+  position: relative;
+  z-index: 6;
+  height: auto; 
+  width: auto; 
+  max-width: 180px; 
+  max-height: 180px;
+  align-items: center;
+  display: block;
+  margin: 0 auto;
+  top:30px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+
+}
+
+.circle-segments{
+  z-index: 1;
+  min-width: 440px;
+  min-height: 440px;
+  width: 440px;
+  height: 440px;
+  position:relative;
+}
+
+.quarter {
+  position: relative;
+  width: 220px;
+  height: 220px;
+}
+
+.top-left {
+  border-top-left-radius: 440px;
+  background: #1fb14e;
+  float: left;
+}
+
+.top-right {
+  border-top-right-radius: 440px;
+  background: #1ba8e0;
+  float: right;
+}
+
+.bottom-left {
+  border-bottom-left-radius: 440px;
+  background: #fecc0b;
+  float: left;
+}
+
+.bottom-right {
+  border-bottom-right-radius: 440px;
+  background: #de232c;
+  float: right;
+}
+
+
+/*  BUTTONS */
+
+.inline{
+  position: relative;
+  display: inline-block;
+  min-width: 70px;
+  top: 60px;
+}
+
+.display{
+  padding-left: 24px;
+}
+
+.light{
+  position: absolute;
+  min-width: 10px;
+  min-height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 6;
+}
+
+.on-off{
+  position: relative;
+  width: 100%;
+  height: 40px;
+  display: inline-block;
+  top: 100px;
+  left: 100px;
+}
+
+.on-off h3{
+  width: 40px;
+  display: inline;
+  float: left;
+}
+
+.switch{
+
+}
+
+.count{
+  font-family: 'VT323', monospace;
+}
