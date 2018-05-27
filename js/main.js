@@ -1,26 +1,34 @@
 const victory = 0;
 let moves = 0;
 
-function counter(state, count) {
+function cntr(state, count) {
     this.state = state;  //bool False is off, true is on
     this.count = count;  //int
+    this.getState = function() {return this.state}
     this.changeState = function(){
     	if(this.state){
     		this.state = false;
     	}
     	else{this.state = true;}
     }
-    this.getCount(){return this.count}
+    this.getCount = function() {return this.count}
     this.increaseCount = function(){
     	this.count++;
     }
 }
 
 
+
 $(document).ready(function(){
+
+	let countr = new cntr(false, 0);
 
 	$('.strict-toggle').click(function(e){
 		cycleLight();
+	})
+
+	$('.slider').click(function(e){
+		cycleCount(countr);
 	})
 
 });
@@ -43,13 +51,15 @@ function cycleLight(){
 	}
 }
 
-function cycleCount(){
-	if($('.light').attr("id") == "light-off"){
-		$('.light').removeAttr("id");
-		$('.light').attr("id", "light-on");
+function cycleCount(cntr){
+	if(cntr.state){
+		cntr.changeState();
+		$('.cnt-display').addClass("led-off")
+		$('.cnt-display').removeClass("led-on")
 	}
 	else{
-		$('.light').removeAttr("id");
-		$('.light').attr("id", "light-off");
+		cntr.changeState();
+		$('.cnt-display').addClass("led-on")
+		$('.cnt-display').removeClass("led-off")
 	}
 }
