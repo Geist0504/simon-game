@@ -1,13 +1,15 @@
 const victory = 20;
 let moves = 0;
-let gameState = false;
 let started = false;
 let finished = false;
+let strictMode = false;
 let circleButtons = ["green", "red", "blue", "yellow"]  //button order clockwise from top-left
 let soundSamples = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
 					"https://s3.amazonaws.com/freecodecamp/simonSound2.mp3",
 					"https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
 					"https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"]
+let circleBtnDict = {};
+let vict =[];
 
 function gameObj(state){
 	this.state = state;
@@ -23,6 +25,7 @@ function circleBtn(color, soundURL){
 
 	this.playSound = function(){
 		var audio = new Audio(this.soundURL);
+		audio.play();
 	}
 }
 
@@ -47,20 +50,41 @@ $(document).ready(function(){
 	let countr = new cntr(false, 0);
 	let game = new gameObj(false);
 
+
+
 	$('.strict-toggle').click(function(e){
 		if(!game.state){}
-		else{cycleLight()};
+		else if(started){}
+		else{
+			strictMode = true;
+			cycleLight()
+		};
 	})
 
 	$('.slider').click(function(e){
 		if(!game.state){
 			initializeGame(countr, game);
 			game.changeState();	
+			console.log(game.state)
 		}
 		else{
 			turnOff();
 			game.changeState();		
 		}
+	})
+
+	$(".quarter").click(function(e){
+		if(!game.state){}
+		else{
+			circleBtnDict[this.id].playSound();
+		};
+	})
+
+	$(".start-toggle").click(function(e){
+		if(!game.state){}
+		else{
+			circleBtnDict[this.id].playSound();
+		};
 	})
 });
 
@@ -69,19 +93,16 @@ function initializeGame(countr, game){
 	$('.quarter').addClass("quarter-on");
 	cycleCount(countr);
 	displayCount(countr);
-	let circleBtnDict = {};
 	for (var i = 0; i < 4; i++) {
 		circleBtnDict[i] = new circleBtn(circleButtons[i], soundSamples[i])
 	}
-	console.log(circleBtnDict);
-
+	
 	vict = initializeVictoryCondition();
 }
 
 function turnOff(){
 	$('.quarter').removeClass("quarter-on");
 }
-
 
 //geneartes the series of moves a user would need to make to win
 function initializeVictoryCondition(){
@@ -91,6 +112,7 @@ function initializeVictoryCondition(){
 
 function cycleLight(){
 	if($('.light').attr("id") == "light-off"){
+		console.log('working');
 		$('.light').removeAttr("id");
 		$('.light').attr("id", "light-on");
 	}
@@ -125,6 +147,7 @@ function pad(num, size) {
     while (s.length < size) s = "0" + s;
     return s;
 }
+
 
 
 
