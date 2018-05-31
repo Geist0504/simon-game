@@ -140,6 +140,14 @@ body{
   filter: brightness(75%)
 }
 
+.quarter-on-active{
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+  border: solid 1px #203E5F;
+  filter: brightness(125%)
+}
+
 .quarter:active {
   -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
@@ -310,6 +318,7 @@ input:checked + .slider:before {
   font-size: 36px;
   font-family: 'VT323', monospace;
   background-color: #32050C;
+  color:#430710;
   border-radius: 15%;
   border: 2px solid black;
 }

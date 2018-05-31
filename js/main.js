@@ -10,6 +10,7 @@ let soundSamples = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
 					"https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"]
 let circleBtnDict = {};
 let vict =[];
+let gameState = [];
 
 function gameObj(state){
 	this.state = state;
@@ -19,13 +20,21 @@ function gameObj(state){
     }
 }
 
-function circleBtn(color, soundURL){
+function circleBtn(number, color, soundURL){
+	this.number = number;
 	this.color = color;
 	this.soundURL = soundURL;
 
 	this.playSound = function(){
 		var audio = new Audio(this.soundURL);
 		audio.play();
+	}
+	this.push = function(){
+		this.playSound();
+		e = document.getElementById(this.number)
+		e.classList.add("quarter-on-active")
+		setTimeout(function() { e.classList.remove("quarter-on-active"); }, 500);
+		
 	}
 }
 
@@ -65,7 +74,6 @@ $(document).ready(function(){
 		if(!game.state){
 			initializeGame(countr, game);
 			game.changeState();	
-			console.log(game.state)
 		}
 		else{
 			turnOff();
@@ -82,8 +90,12 @@ $(document).ready(function(){
 
 	$(".start-toggle").click(function(e){
 		if(!game.state){}
+		else if(started){}
 		else{
-			circleBtnDict[this.id].playSound();
+			started = true;
+			callNTimes(cycleCount, 6, 150, countr)
+			gameState[moves] = vict[moves]
+			setTimeout(function() {playGameState()}, 700);
 		};
 	})
 });
@@ -94,10 +106,15 @@ function initializeGame(countr, game){
 	cycleCount(countr);
 	displayCount(countr);
 	for (var i = 0; i < 4; i++) {
-		circleBtnDict[i] = new circleBtn(circleButtons[i], soundSamples[i])
+		circleBtnDict[i] = new circleBtn(i, circleButtons[i], soundSamples[i])
 	}
-	
 	vict = initializeVictoryCondition();
+}
+
+function playGameState(){
+	for (button in gameState){
+		circleBtnDict[button].push()
+	}
 }
 
 function turnOff(){
@@ -112,7 +129,6 @@ function initializeVictoryCondition(){
 
 function cycleLight(){
 	if($('.light').attr("id") == "light-off"){
-		console.log('working');
 		$('.light').removeAttr("id");
 		$('.light').attr("id", "light-on");
 	}
@@ -148,6 +164,11 @@ function pad(num, size) {
     return s;
 }
 
+function callNTimes(func, num, delay, v){
+    if (!num) return;
+    func(v);
+    setTimeout(function() { callNTimes(func, num - 1, delay, v); }, delay);
+}
 
 
 
