@@ -1,5 +1,5 @@
 const victory = 20;
-let moves = 0;
+let move = 0;
 let started = false;
 let finished = false;
 let strictMode = false;
@@ -94,7 +94,7 @@ $(document).ready(function(){
 		else{
 			started = true;
 			callNTimes(cycleCount, 6, 150, countr)
-			gameState[moves] = vict[moves]
+			gameState[move] = vict[move]
 			setTimeout(function() {playGameState()}, 700);
 		};
 	})
@@ -112,15 +112,15 @@ function initializeGame(countr, game){
 }
 
 function playGameState(){
+	gameState =[2, 3, 0, 1, 2];
 	for (var i = 0; i < gameState.length; i++) {
-		gameState[i]
-		circleBtnDict[gameState[i]].push()
+		(function(i){
+			setTimeout(function() {circleBtnDict[gameState[i]].push(); }, i * 1000);
+		})(i);
 	}
 }
 
-function turnOff(){
-	$('.quarter').removeClass("quarter-on");
-}
+
 
 //geneartes the series of moves a user would need to make to win
 function initializeVictoryCondition(){
@@ -128,6 +128,11 @@ function initializeVictoryCondition(){
 }
 
 
+
+
+
+
+///DISPLAY CYCLES
 function cycleLight(){
 	if($('.light').attr("id") == "light-off"){
 		$('.light').removeAttr("id");
@@ -150,6 +155,10 @@ function cycleCount(cntr){
 		$('.cnt-display').addClass("led-on")
 		$('.cnt-display').removeClass("led-off")
 	}
+}
+
+function turnOff(){
+	$('.quarter').removeClass("quarter-on");
 }
 
 function displayCount(count){
