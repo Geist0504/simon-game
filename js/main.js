@@ -112,8 +112,9 @@ function initializeGame(countr, game){
 }
 
 function playGameState(){
-	for (button in gameState){
-		circleBtnDict[button].push()
+	for (var i = 0; i < gameState.length; i++) {
+		gameState[i]
+		circleBtnDict[gameState[i]].push()
 	}
 }
 
