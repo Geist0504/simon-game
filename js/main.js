@@ -1,4 +1,4 @@
-const victory = 3;
+const victory = 20;
 let move = 0;
 let started = false;
 let finished = false;
@@ -12,7 +12,6 @@ let circleBtnDict = {};
 let vict =[];
 let gameState = [];
 let userMove = 0;
-let currentMove = 0;
 let countr = new cntr(false, 0);
 
 function gameObj(state){
@@ -34,10 +33,9 @@ function circleBtn(number, color, soundURL){
 	}
 	this.push = function(){
 		this.playSound();
-		e = document.getElementById(this.number)
+		let e = document.getElementById(this.number)
 		e.classList.add("quarter-on-active")
 		setTimeout(function() { e.classList.remove("quarter-on-active"); }, 500);
-		
 	}
 }
 
@@ -87,13 +85,15 @@ $(document).ready(function(){
 		else{
 			circleBtnDict[this.id].playSound();
 			if(started){
+				console.log(userMove, gameState, vict)
 				if(goodMove(this.id)){
 					userMove++;
 					if(userMove >= gameState.length){
 						addNextMove();
 						displayCount();
+						userMove = 0;
 						if(!finished){
-							setTimeout(function(){playGameState()}, 300);			
+							setTimeout(function(){playGameState()}, 600);			
 						}
 						else{
 							playVictoryState();
@@ -103,12 +103,16 @@ $(document).ready(function(){
 				}
 				else{
 					if(strictMode){
-						//announce loss
-						resetGame();
+						var audio = new Audio("https://s3.amazonaws.com/fccgeist/lose.flac");
+						audio.volume = 0.5;
+						setTimeout(function(){audio.play()}, 200);
+						setTimeout(function(){resetGame()}, 1000);
 					}
 					else{
-						//Failure sound
-						setTimeout(function(){playGameState()}, 300)
+						var audio = new Audio("https://s3.amazonaws.com/fccgeist/error.wav");
+						audio.volume = 0.1;
+						audio.play();
+						setTimeout(function(){playGameState()}, 1700)
 						userMove = 0;
 					}
 				}
@@ -135,8 +139,8 @@ $(document).ready(function(){
 
 function initializeGame(countr, game){
 	$('.quarter').addClass("quarter-on");
-	cycleCount(countr);
-	displayCount(countr);
+	cycleCount();
+	displayCount();
 	for (var i = 0; i < 4; i++) {
 		circleBtnDict[i] = new circleBtn(i, circleButtons[i], soundSamples[i])
 	}
@@ -166,22 +170,18 @@ function addNextMove(){
 		finished = true;
 	}
 	else{
-		countr.count = userMove + 1;
+		countr.count = gameState.length;
 		gameState[userMove] = vict[userMove];
 	}
 }
 
 function resetGame(){
+	resetVariables();
 	vict = initializeVictoryCondition();
-	gameState = [];
-	userMove = 0;
-	finished = false;
 	addNextMove();
 	displayCount();
-	setTimeout(function() {playGameState()}, 1200);
+	//setTimeout(function() {playGameState()}, 1200);
 }
-
-
 
 //geneartes the series of moves a user would need to make to win
 function initializeVictoryCondition(){
@@ -217,6 +217,7 @@ function cycleCount(){
 function turnOff(){
 	$('.quarter').removeClass("quarter-on");
 	cycleCount();
+	resetVariables();
 }
 
 function displayCount(){
@@ -239,8 +240,13 @@ function callNTimes(func, num, delay, v){
 }
 
 function playVictoryState(){
+	callNTimes(cycleCount, 6, 150, countr)
 	for (var i = 0; i < 3; i++) {
-		setTimeout(function() {pushAll(); }, i * 1000);
+		(function (x) {
+        	setTimeout(function () { 
+        		pushAll();
+        		console.log(x); }, i* 1000);
+    	})(i);
 	}
 }
 
@@ -251,5 +257,12 @@ function pushAll(){
 	circleBtnDict[3].push()
 }
 
-
+function resetVariables(){
+	vict = [];
+	gameState = [];
+	userMove = 0;
+	started = false;
+	finished = false;
+	countr.count = gameState.length;
+}
 
