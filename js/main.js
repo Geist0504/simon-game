@@ -13,6 +13,7 @@ let vict =[];
 let gameState = [];
 let userMove = 0;
 let currentMove = 0;
+let countr = new cntr(false, 0);
 
 function gameObj(state){
 	this.state = state;
@@ -58,10 +59,8 @@ function cntr(state, count) {
 
 $(document).ready(function(){
 
-	let countr = new cntr(false, 0);
+	
 	let game = new gameObj(false);
-
-
 
 	$('.strict-toggle').click(function(e){
 		if(!game.state){}
@@ -91,7 +90,8 @@ $(document).ready(function(){
 				if(goodMove(this.id)){
 					userMove++;
 					if(userMove >= gameState.length){
-						addNextMove()
+						addNextMove();
+						displayCount();
 						if(!finished){
 							setTimeout(function(){playGameState()}, 300);			
 						}
@@ -107,7 +107,7 @@ $(document).ready(function(){
 						resetGame();
 					}
 					else{
-						//Failure sournd
+						//Failure sound
 						setTimeout(function(){playGameState()}, 300)
 						userMove = 0;
 					}
@@ -119,11 +119,14 @@ $(document).ready(function(){
 
 	$(".start-toggle").click(function(e){
 		if(!game.state){}
-		else if(started){}
+		else if(started){
+			resetGame()
+		}
 		else{
 			started = true;
 			callNTimes(cycleCount, 6, 150, countr)
-			gameState[move] = vict[move]
+			addNextMove();
+			setTimeout(function() {displayCount()}, 750)
 			setTimeout(function() {playGameState()}, 700);
 		};
 	})
@@ -150,7 +153,6 @@ function playGameState(){
 }
 
 function goodMove(id){
-	console.log(id, userMove, gameState[userMove])
 	if(id == gameState[userMove]){
 		return true;
 	}
@@ -164,8 +166,8 @@ function addNextMove(){
 		finished = true;
 	}
 	else{
+		countr.count = userMove + 1;
 		gameState[userMove] = vict[userMove];
-		userMove = 0;
 	}
 }
 
@@ -175,6 +177,7 @@ function resetGame(){
 	userMove = 0;
 	finished = false;
 	addNextMove();
+	displayCount();
 	setTimeout(function() {playGameState()}, 1200);
 }
 
@@ -198,14 +201,14 @@ function cycleLight(){
 	}
 }
 
-function cycleCount(cntr){
-	if(cntr.state){
-		cntr.changeState();
+function cycleCount(){
+	if(countr.state){
+		countr.changeState();
 		$('.cnt-display').addClass("led-off")
 		$('.cnt-display').removeClass("led-on")
 	}
 	else{
-		cntr.changeState();
+		countr.changeState();
 		$('.cnt-display').addClass("led-on")
 		$('.cnt-display').removeClass("led-off")
 	}
@@ -213,10 +216,11 @@ function cycleCount(cntr){
 
 function turnOff(){
 	$('.quarter').removeClass("quarter-on");
+	cycleCount();
 }
 
-function displayCount(count){
-	let val = count.getCount();
+function displayCount(){
+	let val = countr.count;
 	if (val == 0){val = '--'}
 	val = pad(val, 2);
 	$('.cnt-display').text(val);
