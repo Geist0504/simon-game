@@ -93,13 +93,18 @@ $(document).ready(function(){
 					if(userMove >= gameState.length){
 						addNextMove()
 						if(!finished){
-							setTimeout(function(){playGameState()}, 300)
+							setTimeout(function(){playGameState()}, 300);			
+						}
+						else{
+							playVictoryState();
+							setTimeout(function(){resetGame()}, 3000);
 						}
 					}
 				}
 				else{
 					if(strictMode){
-						//End Game
+						//announce loss
+						resetGame();
 					}
 					else{
 						//Failure sournd
@@ -156,12 +161,21 @@ function goodMove(id){
 function addNextMove(){
 	if(userMove >= vict.length){
 		//play win sound
-		playVictoryState();
 		finished = true;
-
 	}
-	gameState[userMove] = vict[userMove];
+	else{
+		gameState[userMove] = vict[userMove];
+		userMove = 0;
+	}
+}
+
+function resetGame(){
+	vict = initializeVictoryCondition();
+	gameState = [];
 	userMove = 0;
+	finished = false;
+	addNextMove();
+	setTimeout(function() {playGameState()}, 1200);
 }
 
 
@@ -221,19 +235,16 @@ function callNTimes(func, num, delay, v){
 }
 
 function playVictoryState(){
-	console
 	for (var i = 0; i < 3; i++) {
-		(function(i){
-			setTimeout(function() {pushAll(); }, i * 1000);
-		})(i);
+		setTimeout(function() {pushAll(); }, i * 1000);
 	}
 }
 
 function pushAll(){
-	circleBtnDict[gameState[0]].push()
-	circleBtnDict[gameState[1]].push()
-	circleBtnDict[gameState[2]].push()
-	circleBtnDict[gameState[3]].push()
+	circleBtnDict[0].push()
+	circleBtnDict[1].push()
+	circleBtnDict[2].push()
+	circleBtnDict[3].push()
 }
 
 
