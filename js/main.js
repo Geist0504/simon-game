@@ -1,4 +1,4 @@
-const victory = 20;
+const victory = 3;
 let move = 0;
 let started = false;
 let finished = false;
@@ -11,6 +11,8 @@ let soundSamples = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
 let circleBtnDict = {};
 let vict =[];
 let gameState = [];
+let userMove = 0;
+let currentMove = 0;
 
 function gameObj(state){
 	this.state = state;
@@ -85,6 +87,28 @@ $(document).ready(function(){
 		if(!game.state){}
 		else{
 			circleBtnDict[this.id].playSound();
+			if(started){
+				if(goodMove(this.id)){
+					userMove++;
+					if(userMove >= gameState.length){
+						addNextMove()
+						if(!finished){
+							setTimeout(function(){playGameState()}, 300)
+						}
+					}
+				}
+				else{
+					if(strictMode){
+						//End Game
+					}
+					else{
+						//Failure sournd
+						setTimeout(function(){playGameState()}, 300)
+						userMove = 0;
+					}
+				}
+
+			}
 		};
 	})
 
@@ -109,15 +133,35 @@ function initializeGame(countr, game){
 		circleBtnDict[i] = new circleBtn(i, circleButtons[i], soundSamples[i])
 	}
 	vict = initializeVictoryCondition();
+	addNextMove();
 }
 
 function playGameState(){
-	gameState =[2, 3, 0, 1, 2];
 	for (var i = 0; i < gameState.length; i++) {
 		(function(i){
 			setTimeout(function() {circleBtnDict[gameState[i]].push(); }, i * 1000);
 		})(i);
 	}
+}
+
+function goodMove(id){
+	console.log(id, userMove, gameState[userMove])
+	if(id == gameState[userMove]){
+		return true;
+	}
+	else{
+		return false}
+}
+
+function addNextMove(){
+	if(userMove >= vict.length){
+		//play win sound
+		playVictoryState();
+		finished = true;
+
+	}
+	gameState[userMove] = vict[userMove];
+	userMove = 0;
 }
 
 
@@ -126,10 +170,6 @@ function playGameState(){
 function initializeVictoryCondition(){
 	return Array.from({length: victory}, () => Math.floor(Math.random() * 4));
 }
-
-
-
-
 
 
 ///DISPLAY CYCLES
@@ -178,6 +218,22 @@ function callNTimes(func, num, delay, v){
     if (!num) return;
     func(v);
     setTimeout(function() { callNTimes(func, num - 1, delay, v); }, delay);
+}
+
+function playVictoryState(){
+	console
+	for (var i = 0; i < 3; i++) {
+		(function(i){
+			setTimeout(function() {pushAll(); }, i * 1000);
+		})(i);
+	}
+}
+
+function pushAll(){
+	circleBtnDict[gameState[0]].push()
+	circleBtnDict[gameState[1]].push()
+	circleBtnDict[gameState[2]].push()
+	circleBtnDict[gameState[3]].push()
 }
 
 
